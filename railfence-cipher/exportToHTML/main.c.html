@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>main.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #6aab73;}
+.s2 { color: #bcbec4;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #2aacb8;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.c</font>
+</center></td></tr></table>
+<pre><span class="s0">#include</span><span class="s1">&lt;stdio.h&gt;</span>
+<span class="s0">#include</span><span class="s1">&lt;string.h&gt;</span>
+
+<span class="s3">void </span><span class="s2">encryptMsg</span><span class="s4">(</span><span class="s3">char </span><span class="s2">msg</span><span class="s4">[], </span><span class="s3">int </span><span class="s2">key</span><span class="s4">){</span>
+    <span class="s3">int </span><span class="s2">msgLen </span><span class="s4">= </span><span class="s2">strlen</span><span class="s4">(</span><span class="s2">msg</span><span class="s4">), </span><span class="s2">i</span><span class="s4">, </span><span class="s2">j</span><span class="s4">, </span><span class="s2">k </span><span class="s4">= -</span><span class="s5">1</span><span class="s4">, </span><span class="s2">row </span><span class="s4">= </span><span class="s5">0</span><span class="s4">, </span><span class="s2">col </span><span class="s4">= </span><span class="s5">0</span><span class="s4">;  </span><span class="s6">//Určuje délku zprávy (msgLen), nastavuje proměnné pro iterace (i, j), a inicializuje proměnné pro kontrolu směru pohybu v mřížce (k), řádky a sloupce (row, col).</span>
+    <span class="s3">char </span><span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">key</span><span class="s4">][</span><span class="s2">msgLen</span><span class="s4">];  </span><span class="s6">//Vytváří mřížku o rozměrech key (počet řádků) a msgLen (počet sloupců) pro šifrování.</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">key</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">)  </span><span class="s6">//Inicializuje mřížku railMatrix na prázdné hodnoty (\n), což znamená prázdné místo.</span>
+        <span class="s3">for</span><span class="s4">(</span><span class="s2">j </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">j </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">j</span><span class="s4">)</span>
+            <span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">i</span><span class="s4">][</span><span class="s2">j</span><span class="s4">] = </span><span class="s1">'</span><span class="s3">\n</span><span class="s1">'</span><span class="s4">;</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">){  </span><span class="s6">//Vkládá znaky z původní zprávy do mřížky podle šifrovacího vzoru.</span>
+        <span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">row</span><span class="s4">][</span><span class="s2">col</span><span class="s4">++] = </span><span class="s2">msg</span><span class="s4">[</span><span class="s2">i</span><span class="s4">];</span>
+
+        <span class="s3">if</span><span class="s4">(</span><span class="s2">row </span><span class="s4">== </span><span class="s5">0 </span><span class="s4">|| </span><span class="s2">row </span><span class="s4">== </span><span class="s2">key</span><span class="s4">-</span><span class="s5">1</span><span class="s4">)  </span><span class="s6">//Mění směr pohybu po řádcích, když dosáhne prvního nebo posledního řádku.</span>
+            <span class="s2">k</span><span class="s4">= </span><span class="s2">k </span><span class="s4">* (-</span><span class="s5">1</span><span class="s4">);</span>
+
+        <span class="s2">row </span><span class="s4">= </span><span class="s2">row </span><span class="s4">+ </span><span class="s2">k</span><span class="s4">;  </span><span class="s6">//Posunuje řádek o 1 (nebo -1, podle směru) pro další znak.</span>
+    <span class="s4">}</span>
+
+    <span class="s2">printf</span><span class="s4">(</span><span class="s1">&quot;</span><span class="s3">\n</span><span class="s1">Encrypted Message: &quot;</span><span class="s4">);</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">key</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">)  </span><span class="s6">//Vypisuje šifrovanou zprávu tím, že prochází mřížku a vypisuje všechny nenulové hodnoty.</span>
+        <span class="s3">for</span><span class="s4">(</span><span class="s2">j </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">j </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">j</span><span class="s4">)</span>
+            <span class="s3">if</span><span class="s4">(</span><span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">i</span><span class="s4">][</span><span class="s2">j</span><span class="s4">] != </span><span class="s1">'</span><span class="s3">\n</span><span class="s1">'</span><span class="s4">)</span>
+                <span class="s2">printf</span><span class="s4">(</span><span class="s1">&quot;%c&quot;</span><span class="s4">, </span><span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">i</span><span class="s4">][</span><span class="s2">j</span><span class="s4">]);</span>
+<span class="s4">}</span>
+
+<span class="s3">void </span><span class="s2">decryptMsg</span><span class="s4">(</span><span class="s3">char </span><span class="s2">enMsg</span><span class="s4">[], </span><span class="s3">int </span><span class="s2">key</span><span class="s4">){</span>
+    <span class="s3">int </span><span class="s2">msgLen </span><span class="s4">= </span><span class="s2">strlen</span><span class="s4">(</span><span class="s2">enMsg</span><span class="s4">), </span><span class="s2">i</span><span class="s4">, </span><span class="s2">j</span><span class="s4">, </span><span class="s2">k </span><span class="s4">= -</span><span class="s5">1</span><span class="s4">, </span><span class="s2">row </span><span class="s4">= </span><span class="s5">0</span><span class="s4">, </span><span class="s2">col </span><span class="s4">= </span><span class="s5">0</span><span class="s4">, </span><span class="s2">m </span><span class="s4">= </span><span class="s5">0</span><span class="s4">;  </span><span class="s6">//Nastavuje délku šifrované zprávy (msgLen) a proměnné pro práci s mřížkou a pro iterace.</span>
+    <span class="s3">char </span><span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">key</span><span class="s4">][</span><span class="s2">msgLen</span><span class="s4">];  </span><span class="s6">//Vytváří mřížku pro dešifrování zprávy, která bude mít stejný tvar jako při šifrování.</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">key</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">)  </span><span class="s6">//Inicializuje mřížku na prázdné hodnoty.</span>
+        <span class="s3">for</span><span class="s4">(</span><span class="s2">j </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">j </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">j</span><span class="s4">)  </span><span class="s6">////Inicializuje mřížku na prázdné hodnoty.</span>
+            <span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">i</span><span class="s4">][</span><span class="s2">j</span><span class="s4">] = </span><span class="s1">'</span><span class="s3">\n</span><span class="s1">'</span><span class="s4">;</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">){  </span><span class="s6">//Zapisuje do mřížky zástupné znaky (*), kde budou později vloženy písmena z šifrované zprávy.</span>
+        <span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">row</span><span class="s4">][</span><span class="s2">col</span><span class="s4">++] = </span><span class="s1">'*'</span><span class="s4">;  </span><span class="s6">//Zapisuje do mřížky zástupné znaky (*), kde budou později vloženy písmena z šifrované zprávy.</span>
+
+        <span class="s3">if</span><span class="s4">(</span><span class="s2">row </span><span class="s4">== </span><span class="s5">0 </span><span class="s4">|| </span><span class="s2">row </span><span class="s4">== </span><span class="s2">key</span><span class="s4">-</span><span class="s5">1</span><span class="s4">)  </span><span class="s6">//Stejně jako v šifrování, mění směr pohybu mezi řádky při dosažení krajních řádků.</span>
+            <span class="s2">k</span><span class="s4">= </span><span class="s2">k </span><span class="s4">* (-</span><span class="s5">1</span><span class="s4">);</span>
+
+        <span class="s2">row </span><span class="s4">= </span><span class="s2">row </span><span class="s4">+ </span><span class="s2">k</span><span class="s4">;</span>
+    <span class="s4">}</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">key</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">)  </span><span class="s6">//Nahrazuje zástupné znaky (*) skutečnými písmeny z šifrované zprávy.</span>
+        <span class="s3">for</span><span class="s4">(</span><span class="s2">j </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">j </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">j</span><span class="s4">) </span><span class="s6">//viz radek 46</span>
+            <span class="s3">if</span><span class="s4">(</span><span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">i</span><span class="s4">][</span><span class="s2">j</span><span class="s4">] == </span><span class="s1">'*'</span><span class="s4">)  </span><span class="s6">//viz radek 46</span>
+                <span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">i</span><span class="s4">][</span><span class="s2">j</span><span class="s4">] = </span><span class="s2">enMsg</span><span class="s4">[</span><span class="s2">m</span><span class="s4">++];  </span><span class="s6">//viz radek 46</span>
+
+    <span class="s2">row </span><span class="s4">= </span><span class="s2">col </span><span class="s4">= </span><span class="s5">0</span><span class="s4">;  </span><span class="s6">//Resetuje hodnoty pro dešifrování: řádek, sloupec a směr.</span>
+    <span class="s2">k </span><span class="s4">= -</span><span class="s5">1</span><span class="s4">;</span>
+
+    <span class="s2">printf</span><span class="s4">(</span><span class="s1">&quot;</span><span class="s3">\n</span><span class="s1">Decrypted Message: &quot;</span><span class="s4">);</span>
+
+    <span class="s3">for</span><span class="s4">(</span><span class="s2">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s2">i </span><span class="s4">&lt; </span><span class="s2">msgLen</span><span class="s4">; ++</span><span class="s2">i</span><span class="s4">){  </span><span class="s6">//Vypisuje dešifrovanou zprávu tím, že čte písmena z mřížky v požadovaném pořadí.</span>
+        <span class="s2">printf</span><span class="s4">(</span><span class="s1">&quot;%c&quot;</span><span class="s4">, </span><span class="s2">railMatrix</span><span class="s4">[</span><span class="s2">row</span><span class="s4">][</span><span class="s2">col</span><span class="s4">++]);</span>
+
+        <span class="s3">if</span><span class="s4">(</span><span class="s2">row </span><span class="s4">== </span><span class="s5">0 </span><span class="s4">|| </span><span class="s2">row </span><span class="s4">== </span><span class="s2">key</span><span class="s4">-</span><span class="s5">1</span><span class="s4">)</span>
+            <span class="s2">k</span><span class="s4">= </span><span class="s2">k </span><span class="s4">* (-</span><span class="s5">1</span><span class="s4">);</span>
+
+        <span class="s2">row </span><span class="s4">= </span><span class="s2">row </span><span class="s4">+ </span><span class="s2">k</span><span class="s4">;</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s3">int </span><span class="s2">main</span><span class="s4">(){</span>
+    <span class="s3">char </span><span class="s2">msg</span><span class="s4">[] = </span><span class="s1">&quot;Lukas Rasocha&quot;</span><span class="s4">;  </span><span class="s6">// Původní zpráva k šifrování.</span>
+    <span class="s3">char </span><span class="s2">enMsg</span><span class="s4">[] = </span><span class="s1">&quot;Horel ollWd&quot;</span><span class="s4">;  </span><span class="s6">//Šifrovaná verze zprávy, kterou dešifrujeme.</span>
+    <span class="s3">int </span><span class="s2">key </span><span class="s4">= </span><span class="s5">5</span><span class="s4">;  </span><span class="s6">//Počet řádků v mřížce pro šifrování/dešifrování.</span>
+
+    <span class="s2">printf</span><span class="s4">(</span><span class="s1">&quot;Original Message: %s&quot;</span><span class="s4">, </span><span class="s2">msg</span><span class="s4">);</span>
+
+    <span class="s2">encryptMsg</span><span class="s4">(</span><span class="s2">msg</span><span class="s4">, </span><span class="s2">key</span><span class="s4">);  </span><span class="s6">//Zavolá funkci pro šifrování zprávy.</span>
+    <span class="s2">decryptMsg</span><span class="s4">(</span><span class="s2">enMsg</span><span class="s4">, </span><span class="s2">key</span><span class="s4">);  </span><span class="s6">//Zavolá funkci pro dešifrování zprávy.</span>
+
+    <span class="s3">return </span><span class="s5">0</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+</pre>
+</body>
+</html>
